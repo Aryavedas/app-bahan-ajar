@@ -435,11 +435,148 @@ button {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 640px) {
-  .display-mega { font-size: 40px; }
-  .display-xl { font-size: 32px; }
+@keyframes bounceRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+/* Hide swipe hint by default (on desktop) */
+.swipe-hint {
+  display: none;
+}
+
+/* Floating Mobile Nav */
+.mobile-nav-container {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  padding: 16px;
+  pointer-events: none;
+}
+
+.mobile-nav-bar {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+}
+
+.mobile-nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--color-muted);
+}
+.mobile-nav-item.active {
+  color: var(--color-ink);
+}
+
+.mobile-nav-icon-wrapper {
+  position: relative;
+  width: 48px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.mobile-nav-pill-bg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-surface-strong);
+  border-radius: 9999px;
+  z-index: -1;
+}
+
+.mobile-nav-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 768px) {
+  /* Typography */
+  .display-mega { font-size: 36px; letter-spacing: -1px; }
+  .display-xl { font-size: 32px; letter-spacing: -0.5px; }
   .display-lg { font-size: 28px; }
-  .hero-band { padding: var(--spacing-xxl) var(--spacing-base); }
-  .section, .section-alt, .footer { padding: var(--spacing-xxl) var(--spacing-base); }
-  .top-nav { padding: 0 var(--spacing-base); }
+  .display-md { font-size: 24px; }
+  .display-sm { font-size: 20px; }
+  .title-md { font-size: 18px; }
+  
+  /* Layout Spacing */
+  .hero-band { padding: var(--spacing-xl) var(--spacing-base); }
+  .section, .section-alt { padding: var(--spacing-xl) var(--spacing-base); }
+  .footer { padding: var(--spacing-xl) var(--spacing-base) 100px var(--spacing-base); } /* extra padding for nav */
+  .top-nav { padding: 0 var(--spacing-base); height: 56px; }
+  
+  /* Utilities */
+  .hidden-mobile { display: none !important; }
+  .mobile-nav-container { display: block; }
+  .bento-mobile-12 { grid-column: span 12 !important; }
+  
+  /* Components Padding (Compact) */
+  .feature-card, .case-study, .quiz-question { 
+    padding: var(--spacing-md) !important; 
+    gap: var(--spacing-sm);
+  }
+  
+  /* Reduce gap in grids */
+  .bento-grid, .feature-grid, .flashcard-grid {
+    gap: var(--spacing-base);
+  }
+  
+  /* Swipeable Carousel for Mobile */
+  .swipeable-grid {
+    display: flex !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 calc(var(--spacing-base) * -1) !important;
+    /* Added top padding to prevent the top edge/shadows from being cropped */
+    padding: var(--spacing-base) var(--spacing-base) var(--spacing-lg) var(--spacing-base) !important;
+    scroll-padding-left: var(--spacing-base);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: stretch; /* Force equal height for all cards in the row */
+  }
+  .swipeable-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .swipeable-grid > * {
+    /* ~75% width gives a more elegant golden ratio feel and leaves 25% for the next card to peek */
+    flex: 0 0 75% !important;
+    scroll-snap-align: start; /* Snaps perfectly to the left margin */
+    height: auto !important;
+  }
+  /* Spacer to ensure the last card can be scrolled fully into view with margin on the right */
+  .swipeable-grid::after {
+    content: "";
+    flex: 0 0 1px;
+    padding-right: var(--spacing-base);
+  }
+  
+  .swipe-hint {
+    display: block; /* Show only on mobile */
+  }
+  
+  /* Games Specific compact */
+  .badge-pill { padding: 4px 8px; font-size: 12px !important; }
+  .button-primary, .button-outline { height: 36px; padding: 6px 14px; font-size: 14px; }
 }

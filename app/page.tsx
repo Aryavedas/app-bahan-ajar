@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import Flashcards from './components/Flashcards';
 import InteractiveCaseStudy from './components/InteractiveCaseStudy';
 import EvaluationQuiz from './components/EvaluationQuiz';
+import MobileNav from './components/MobileNav';
+import { ArrowRight } from 'lucide-react';
 import BiasDetector from './components/games/BiasDetector';
 import DeepfakeOrReal from './components/games/DeepfakeOrReal';
 import AIEthicsJudge from './components/games/AIEthicsJudge';
@@ -19,13 +21,21 @@ function Reveal({ children, delay = 0, yOffset = 50, className = '', style = {} 
       style={style}
       initial={{ opacity: 0, y: yOffset }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-10px" }}
       transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
   );
 }
+
+const SwipeHint = () => (
+  <div className="swipe-hint">
+    <span className="caption" style={{ color: 'var(--color-muted)', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-end', marginBottom: '8px' }}>
+      Geser ke samping <ArrowRight size={14} style={{ animation: 'bounceRight 1.5s infinite' }} />
+    </span>
+  </div>
+);
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("");
@@ -169,7 +179,8 @@ export default function Home() {
             </div>
           </Reveal>
           
-          <div className="bento-grid">
+          <SwipeHint />
+          <div className="bento-grid swipeable-grid">
             {[
               "Menjelaskan konsep dasar kecerdasan buatan (AI) dan prinsip etika yang menyertainya",
               "Mengidentifikasi potensi risiko dan dampak sosial dari penggunaan AI yang tidak etis",
@@ -245,6 +256,10 @@ export default function Home() {
               </div>
             </Reveal>
 
+          </div>
+          
+          <SwipeHint />
+          <div className="bento-grid swipeable-grid">
             {/* 3 cards across */}
             {[
               { title: 'Transparansi', desc: 'Sistem AI harus bisa dijelaskan cara kerjanya. Pengguna berhak tahu mengapa AI membuat keputusan tertentu.' },
@@ -289,7 +304,8 @@ export default function Home() {
               </div>
             </Reveal>
             
-            <div className="bento-grid">
+            <SwipeHint />
+            <div className="bento-grid swipeable-grid">
               <Reveal delay={0.1} className="bento-col-6 bento-mobile-12">
                 <motion.div className="feature-card" style={{ padding: 'var(--spacing-xl)', height: '100%' }}>
                   <div className="badge-pill" style={{ marginBottom: 'var(--spacing-md)' }}>Risiko 1</div>
@@ -358,7 +374,8 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <div className="bento-grid">
+          <SwipeHint />
+          <div className="bento-grid swipeable-grid">
             <Reveal delay={0.1} className="bento-col-6 bento-mobile-12">
               <motion.div className="feature-card" style={{ backgroundColor: 'var(--color-canvas-deep)', color: 'var(--color-on-dark)', padding: 'var(--spacing-xl)', height: '100%' }}>
                 <h3 className="display-sm" style={{ color: 'var(--color-on-dark)', marginBottom: 'var(--spacing-lg)' }}>Framework PAPA</h3>
@@ -508,6 +525,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Mobile Nav */}
+      <MobileNav activeSection={activeSection} />
 
       <style dangerouslySetInnerHTML={{__html: `
         @media (max-width: 1024px) {
